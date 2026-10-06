@@ -1,36 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Clawd Lab · ¡Vamos a construir un transformer!
 
-## Getting Started
+Mapa interactivo en español para aprender cómo funcionan los modelos de lenguaje y los agentes,
+desde la neurona hasta los sistemas multi-agente. Clawd (la mascota de Claude) es el guía: habla con voz
+y puedes conversar con él por micrófono o por chat.
 
-First, run the development server:
+## Stack
+- Next.js (App Router) + React + Tailwind
+- three.js / @react-three/fiber / drei para escenas 3D, framer-motion para animaciones 2D
+- Web Speech API: síntesis de voz (TTS) y reconocimiento (STT) en el navegador
+- `/api/chat`: Claude (Anthropic SDK, `claude-opus-5-5`, streaming) con el contexto de la lección y la escena
 
+## Desarrollo
 ```bash
+npm install
+echo "ANTHROPIC_API_KEY=sk-ant-..." > .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Estructura
+- `src/lib/lessons.ts` — registro de lecciones (mapa, intros, contexto para el chat)
+- `src/lib/guide-store.ts` — estado del guía; `useGuide()` permite a cada lección hacer hablar a Clawd
+- `src/lib/voice.ts` — voz (TTS/STT)
+- `src/components/` — mapa, panel de Clawd, shell de lección, kit de UI
+- `src/lessons/<id>/` — cada lección interactiva
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Despliegue
+`vercel --prod` y configurar `ANTHROPIC_API_KEY` en el proyecto de Vercel.
